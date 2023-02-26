@@ -7,5 +7,5 @@ What I want to achieve:
 - This repository was created to practice working in a shared environment.
 
 ##
-#### <sub>The course can be accessed [here](https://www.udemy.com/course/javascript-jedyny-kurs-ktorego-potrzebujesz/) (course conducted in polish).
-</sub>
+#### <sup>The course can be accessed [here](https://www.udemy.com/course/javascript-jedyny-kurs-ktorego-potrzebujesz/) (course conducted in polish).
+</sup>
