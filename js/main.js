@@ -7,6 +7,13 @@ let addBtn // ADD button - adding new elements to list
 let ulList // task list, li tags
 let newTodo // new li element / task / todo
 
+let popup // popup window
+let popupInfo // text inside the popup window
+let todoToEdit // edit the task
+let popupInput // input inside the popup
+let popupAddBtn // confirm button
+let popupCloseBtn // cancel button
+
 const main = () => {
 	// calling functions
 	prepareDOMElements()
@@ -18,11 +25,18 @@ const prepareDOMElements = () => {
 	errorInfo = document.querySelector('.error-info')
 	addBtn = document.querySelector('.btn-add')
 	ulList = document.querySelector('.todolist ul')
+
+    popup = document.querySelector('div.popup')
+    popupInfo = popup.querySelector('.popup-info')
+    popupInput = popup.querySelector('.popup-input')
+    popupAddBtn = popup.querySelector('.popup-btn.accept')
+    popupCloseBtn = popup.querySelector('.popup-btn.cancel')
 }
 const prepareDOMEvents = () => {
 	// listeners
 	addBtn.addEventListener('click', addNewTask)
     ulList.addEventListener('click', checkClick)
+    popupCloseBtn.addEventListener('click', closePopup)
 
 }
 
@@ -66,12 +80,20 @@ const checkClick = (e) => {
         e.target.closest('li').classList.toggle('completed')
         e.target.classList.toggle('completed')
     } else if (e.target.matches('.edit')) {
-        
+        editTodo()
     } else if (e.target.matches('.delete')) {
 
     } else {
 
     }
+}
+
+const editTodo = () => {
+    popup.style.display = 'flex'
+}
+
+const closePopup = () => {
+    popup.style.display = 'none'
 }
 
 document.addEventListener('DOMContentLoaded', main)
