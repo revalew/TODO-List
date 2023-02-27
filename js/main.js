@@ -37,7 +37,18 @@ const prepareDOMEvents = () => {
 	addBtn.addEventListener('click', addNewTask)
 	ulList.addEventListener('click', checkClick)
 	popupCloseBtn.addEventListener('click', closePopup)
-    popupAddBtn.addEventListener('click', changeTodoText)
+	popupAddBtn.addEventListener('click', changeTodoText)
+	todoInput.addEventListener('keyup', checkKey)
+	popupInput.addEventListener('keyup', checkKey2)
+	window.addEventListener('keyup', e => (e.key === 'Escape' && popup.style.display === 'flex' ? closePopup() : ''))
+}
+
+const checkKey = e => {
+	if (e.key === 'Enter') {
+		addNewTask()
+	} else if (e.key === 'Escape') {
+		todoInput.value = ''
+	}
 }
 
 const addNewTask = () => {
@@ -82,7 +93,7 @@ const checkClick = e => {
 	} else if (e.target.matches('.edit')) {
 		editTodo(e)
 	} else if (e.target.matches('.delete')) {
-        deleteTodo(e)
+		deleteTodo(e)
 	} else {
 	}
 }
@@ -95,26 +106,32 @@ const editTodo = e => {
 
 const closePopup = () => {
 	popup.style.display = 'none'
-    popupInfo.textContent = ''
+	popupInfo.textContent = ''
+}
+
+const checkKey2 = e => {
+	if (e.key === 'Enter') {
+		changeTodoText()
+	} else if (e.key === 'Escape') {
+		closePopup()
+	}
 }
 
 const changeTodoText = () => {
 	if (popupInput.value !== '') {
 		todoToEdit.firstChild.textContent = popupInput.value
-        closePopup()
+		closePopup()
 	} else {
-        popupInfo.textContent = 'Wpisz treść zadania!'
+		popupInfo.textContent = 'Wpisz treść zadania!'
 	}
 }
 
-const deleteTodo = (e) => {
-    e.target.closest('li').remove()
-    const allTodos = ulList.querySelectorAll('li')
-    if (allTodos.length === 0) {
-        errorInfo.textContent = 'Brak zadań na liście.'
-    } 
-
-    console.log(allTodos);
+const deleteTodo = e => {
+	e.target.closest('li').remove()
+	const allTodos = ulList.querySelectorAll('li')
+	if (allTodos.length === 0) {
+		errorInfo.textContent = 'Brak zadań na liście.'
+	}
 }
 
 document.addEventListener('DOMContentLoaded', main)
