@@ -26,25 +26,25 @@ const prepareDOMElements = () => {
 	addBtn = document.querySelector('.btn-add')
 	ulList = document.querySelector('.todolist ul')
 
-    popup = document.querySelector('div.popup')
-    popupInfo = popup.querySelector('.popup-info')
-    popupInput = popup.querySelector('.popup-input')
-    popupAddBtn = popup.querySelector('.popup-btn.accept')
-    popupCloseBtn = popup.querySelector('.popup-btn.cancel')
+	popup = document.querySelector('div.popup')
+	popupInfo = popup.querySelector('.popup-info')
+	popupInput = popup.querySelector('.popup-input')
+	popupAddBtn = popup.querySelector('.popup-btn.accept')
+	popupCloseBtn = popup.querySelector('.popup-btn.cancel')
 }
 const prepareDOMEvents = () => {
 	// listeners
 	addBtn.addEventListener('click', addNewTask)
-    ulList.addEventListener('click', checkClick)
-    popupCloseBtn.addEventListener('click', closePopup)
-
+	ulList.addEventListener('click', checkClick)
+	popupCloseBtn.addEventListener('click', closePopup)
+    popupAddBtn.addEventListener('click', changeTodoText)
 }
 
 const addNewTask = () => {
 	if (todoInput.value !== '') {
 		newTodo = document.createElement('li')
 		newTodo.textContent = todoInput.value
-        createToolsArea()
+		createToolsArea()
 		ulList.append(newTodo)
 		todoInput.value = ''
 		errorInfo.textContent = ''
@@ -59,41 +59,51 @@ const createToolsArea = () => {
 
 	const completeBtn = document.createElement('button')
 	completeBtn.classList.add('complete')
-    completeBtn.innerHTML = '<i class="fas fa-check"></i>'
-    
+	completeBtn.innerHTML = '<i class="fas fa-check"></i>'
+
 	const editBtn = document.createElement('button')
 	editBtn.classList.add('edit')
-    editBtn.textContent = 'EDIT'
-    
+	editBtn.textContent = 'EDIT'
+
 	const deleteBtn = document.createElement('button')
 	deleteBtn.classList.add('delete')
-    deleteBtn.innerHTML = '<i class="fas fa-times"></i>'
+	deleteBtn.innerHTML = '<i class="fas fa-times"></i>'
 
 	toolsPanel.append(completeBtn, editBtn, deleteBtn)
-    // toolsPanel.addEventListener('click', checkClick)
+	// toolsPanel.addEventListener('click', checkClick)
 
 	newTodo.append(toolsPanel)
 }
 
-const checkClick = (e) => {
-    if (e.target.matches('.complete')) {
-        e.target.closest('li').classList.toggle('completed')
-        e.target.classList.toggle('completed')
-    } else if (e.target.matches('.edit')) {
-        editTodo()
-    } else if (e.target.matches('.delete')) {
-
-    } else {
-
-    }
+const checkClick = e => {
+	if (e.target.matches('.complete')) {
+		e.target.closest('li').classList.toggle('completed')
+		e.target.classList.toggle('completed')
+	} else if (e.target.matches('.edit')) {
+		editTodo(e)
+	} else if (e.target.matches('.delete')) {
+	} else {
+	}
 }
 
-const editTodo = () => {
-    popup.style.display = 'flex'
+const editTodo = e => {
+	todoToEdit = e.target.closest('li')
+	popupInput.value = todoToEdit.firstChild.textContent
+	popup.style.display = 'flex'
 }
 
 const closePopup = () => {
-    popup.style.display = 'none'
+	popup.style.display = 'none'
+    popupInfo.textContent = ''
+}
+
+const changeTodoText = () => {
+	if (popupInput.value !== '') {
+		todoToEdit.firstChild.textContent = popupInput.value
+        closePopup()
+	} else {
+        popupInfo.textContent = 'Wpisz treść zadania!'
+	}
 }
 
 document.addEventListener('DOMContentLoaded', main)
